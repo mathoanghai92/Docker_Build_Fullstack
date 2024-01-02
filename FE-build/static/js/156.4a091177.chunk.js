@@ -1,0 +1,2 @@
+(this["webpackJsonpcrm-v3"]=this["webpackJsonpcrm-v3"]||[]).push([[156],{2118:function(e,t,c){"use strict";c.r(t);var s=c(0),n=c.p+"static/media/version.81600caf.md",r=c(1249),i=c(2);t.default=()=>{const[e,t]=Object(s.useState)("");return Object(s.useEffect)((()=>{fetch(n).then((e=>e.text())).then((e=>{t(e)}))}),[]),Object(i.jsx)(i.Fragment,{children:Object(i.jsx)("div",{children:Object(i.jsx)(r.a,{source:e,children:e})})})}}}]);
+//# sourceMappingURL=156.4a091177.chunk.js.map

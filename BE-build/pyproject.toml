@@ -1,0 +1,86 @@
+[tool.commitizen]
+name = "cz_customize"
+version = "3.8.0"
+version_files = ["pyproject.toml:version", "smbproject/__version__.py"]
+
+
+[tool.commitizen.customize]
+message_template = "{{change_type}}{% if scope %}({{scope}}){% endif %}: {% if jiracode %}[#{{jiracode}}]{% endif %} {{message}}"
+example = "feat(Email): update email template"
+schema = "<type>(<scope>): (#<jiracode>) <body>"
+schema_pattern = "(break|feat|fix|hotfix|chore|bump)(\\(.*\\))?:(\\s.*)"
+bump_pattern = "^(break|feat|fix|hotfix|chore)"
+bump_map = { "break" = "MAJOR", "feat" = "MINOR", "fix" = "PATCH", "hotfix" = "PATCH", "chore" = "PATCH" }
+commit_parser = "^(?P<change_type>break|feat|fix|hotfix|chore)(?P<scope>\\(.*\\))?:\\s(?P<message>.*)?"
+change_type_order = ["BREAKING CHANGE", "hotfix", "fix", "feat", "chore"]
+changelog_pattern = "^(break|feat|fix|hotfix|chore)?(!)?"
+change_type_map = { "break" = "BREAKING CHANGE", "feat" = "Features", "fix" = "Bug Fixes", "hotfix" = "Hot Fixes", "chore" = "Chore" }
+
+[[tool.commitizen.customize.questions]]
+type = "list"
+name = "change_type"
+choices = [
+    { value = "break", name = "break: BREAKING CHANGE!." },
+    { value = "chore", name = "chore: Updating grunt tasks etc." },
+    { value = "feat", name = "feat: A new feat." },
+    { value = "fix", name = "fix: A bug fix." },
+]
+message = "Select the type of change you are committing"
+
+[[tool.commitizen.customize.questions]]
+type = "input"
+name = "message"
+message = "Message: "
+
+[[tool.commitizen.customize.questions]]
+type = "input"
+name = "scope"
+message = "Scope: "
+
+[[tool.commitizen.customize.questions]]
+type = "input"
+name = "jiracode"
+message = "Jira (Refs): "
+
+
+[tool.ruff]
+include = ["*.py"]
+fix = true
+line-length = 200
+select = [
+    "C4",
+    "UP",
+    "E",
+    "F",
+    "B",
+    "S",
+    "DJ",
+    "SIM",
+    "RET",
+    "T20",
+    "PIE",
+    "PD",
+    "PL",
+    "PERF",
+]
+ignore = [
+    "PERF203", # `try`-`except` within a loop incurs performance overhead
+]
+target-version = "py38"
+#unfixable = [""]
+
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402"]
+
+[tool.ruff.pylint]
+max-args = 20
+max-branches = 50
+max-statements = 200
+max-returns = 20
+
+[tool.bandit]
+skips = ["B501"]

@@ -1,0 +1,1 @@
+{"version":3,"sources":["pages/Forms/forms.js"],"names":["Forms","_jsx","children"],"mappings":"2GAAA,uBAMeA,UAJDA,IACLC,cAAA,OAAAC,SAAK,Q","file":"static/js/149.58201a1b.chunk.js","sourcesContent":["import React from \"react\";\n\nconst Forms = () => {\n  return <div>Form</div>;\n};\n\nexport default Forms;\n"],"sourceRoot":""}

@@ -1,0 +1,2 @@
+(this["webpackJsonpcrm-v3"]=this["webpackJsonpcrm-v3"]||[]).push([[141],{2056:function(c,t,e){"use strict";e.r(t);var s=e(0),n=e(2);t.default=function(c){return Object(s.useEffect)((()=>{window&&window.close()}),[]),Object(n.jsx)("div",{})}}}]);
+//# sourceMappingURL=141.c08507a6.chunk.js.map

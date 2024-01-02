@@ -1,0 +1,7 @@
+*.pyc
+*/venv
+*/Logs
+*/.DS_Store
+*/.vscode
+*/.mypy_cache
+*/.git

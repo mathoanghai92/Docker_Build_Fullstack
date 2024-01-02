@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/pages/Roles/roles.scss"],"names":[],"mappings":"AACE,iCACE,sBAAA,CACA,gBAAA","file":"78.6493ea71.chunk.css","sourcesContent":[".popoverRoles {\n  .ant-popover-inner {\n    background-color: unset;\n    box-shadow: unset;\n  }\n}\n"]}

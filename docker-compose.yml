@@ -1,0 +1,90 @@
+version: "3.5"
+
+services:
+
+  ucrm-fe:
+    container_name: ucrm-fe
+    build:
+      context: ./FE-build
+      dockerfile: "Dockerfile_fe"
+    image: ucrm-fe:3.0.8
+    restart: always
+    networks:
+      - ucrm-net
+    ports:
+      - "80:8080"
+    environment:
+      hostname: 'ucrm-fe'
+
+  build-image-be:
+    build:
+      context: ./BE-build
+      dockerfile: "Dockerfile_be"
+    image: ucrm-be:3.8.0
+
+  ucrm-be:
+    container_name: ucrm-be
+    image: ucrm-be:3.8.0
+    restart: always
+    command: bash -c "gunicorn --worker-class=gevent --worker-connections=100 --bind 0.0.0.0:8000 --workers=8 smbproject.wsgi:application"
+    volumes:
+      - /smb/media:/smb/media
+      - /smb/.env:/smb/app/.env
+    ports:
+      - "8000:8000"
+    environment:
+      hostname: 'ucrm-be'
+    networks:
+      - ucrm-net
+    depends_on:
+      - build-image-be  
+    
+  ucrm_daphne:
+    container_name: ucrm-daphne
+    build:
+      context: ./BE-build
+      dockerfile: "Dockerfile_daphne"
+    image: ucrm-be:3.8.0
+    restart: always
+    command: bash -c "daphne -p 8001 -b 0.0.0.0 smbproject.asgi:application"
+    volumes:
+      - /smb/media:/smb/media
+      - /smb/.env:/smb/app/.env
+    ports:
+      - "8001:8001"
+    environment:
+      hostname: 'ucrm-daphne'
+    networks:
+      - ucrm-net
+    depends_on:
+      - build-image-be  
+  
+  ucrm-celery:
+    container_name: ucrm-celery
+    image: ucrm-be:3.8.0
+    command: bash -c "celery -A smbproject  worker --beat -l INFO --concurrency=1 --scheduler redbeat.RedBeatScheduler -Ofair"
+    volumes:
+      - /smb/media:/smb/media
+      - /smb/.env:/smb/app/.env
+    networks:
+      - ucrm-net
+    environment:
+      hostname: 'ucrm-celery'
+    depends_on:
+      - build-image-be  
+
+  redis-server:
+    image: redis:7.2-alpine
+    container_name: redis-server
+    networks:
+      - ucrm-net
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --loglevel warning
+    volumes:
+      - /app/redis:/data
+
+networks:
+  ucrm-net:
+    driver: bridge
